@@ -1,6 +1,7 @@
 const https = require('https');
 const {createHmac} = require('crypto');
 const axios = require('axios');
+const axiosRetry = require('axios-retry');
 
 const FREEBOX_LOCAL_URL = 'https://mafreebox.freebox.fr';
 
@@ -293,6 +294,7 @@ class Freebox {
 		}
 
 		const axiosInstance = axios.create(axiosConfig);
+		axiosRetry(axiosInstance, { retries: 3 });
 		this.axiosInstanceCache = axiosInstance;
 		return axiosInstance;
 	}
